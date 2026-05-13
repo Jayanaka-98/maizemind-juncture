@@ -22,7 +22,8 @@ def:pub WelcomeScreen(props: any) -> JsxElement {
         loading: bool = False,
         showEulaModal: bool = False,
         eulaAccepted: bool = False,
-        pendingAction: str = "";
+        pendingAction: str = "",
+        videoStarted: bool = False;
 
     def openEulaForSignup() -> None {
         error = "";
@@ -168,6 +169,12 @@ def:pub WelcomeScreen(props: any) -> JsxElement {
 
     def closeEulaReadOnly() -> None {
         showEulaViewOnly = False;
+    }
+
+    def startDemoVideo() -> None {
+        videoStarted = True;
+        v = document.querySelector(".lp-video");
+        if v { v.play(); }
     }
 
     activeTab = "signup" if isSignup else "login";
@@ -369,11 +376,21 @@ def:pub WelcomeScreen(props: any) -> JsxElement {
                         <video
                             className="lp-video"
                             controls
+                            playsInline
                             preload="metadata"
                             poster="/demo-thumbnail.png"
-                            src="/demo.mp4">
+                            src="/demo.mp4"
+                            onPlay={lambda -> None { videoStarted = True; }}>
                             Your browser doesn't support embedded video.
                         </video>
+                        {(
+                            <button
+                                className="lp-video-play-btn"
+                                onClick={startDemoVideo}
+                                aria-label="Play demo video">
+                                <Play />
+                            </button>
+                        ) if not videoStarted else None}
                     </div>
                 </div>
             </div>
