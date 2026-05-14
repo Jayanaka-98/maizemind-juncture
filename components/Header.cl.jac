@@ -33,7 +33,7 @@ def:pub Header(props: any) -> JsxElement {
     }
 
     def handleLogoClick() -> None {
-        nav("/generate");
+        nav("/");
     }
 
     def handleBack() -> None {
